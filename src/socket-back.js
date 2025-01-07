@@ -2,33 +2,44 @@ import io from './servidor.js';
 
 const documentos = [
   { nome: 'JavaScript',
-    texto: 'texto de javascript'
+    texto: 'Texto de JavaScript'
   },
   {
-    nome: 'Node.js',
-    texto: 'texto de node.js' 
+    nome: 'Node',
+    texto: 'Texto de Node' 
   },
   {
-    nome: 'Socket.IO',
-    texto: 'texto de socket.io'
+    nome: 'Socket.io',
+    texto: 'Texto de Socket.io'
   }
 ]
 
 io.on('connection', (socket) => {
   console.log('Usuário conectado. ID:', socket.id);
 
-  socket.on('selecionar_documento', (nomeDocumento) => {
+  socket.on('selecionar_documento', (nomeDocumento, devolverTexto) => {
+    socket.join(nomeDocumento);
+
     const documento = encontrarDocumento(nomeDocumento);
 
+    if (documento) {
+
+      devolverTexto(documento.texto);
+
+    }
     console.log(documento);
 
-    socket.join(nomeDocumento);
   });
 
   socket.on('texto_editor', ({texto, nomeDocumento}) => {
-    // socket.broadcast.emit('texto_editor_clentes', texto);
-  
-    socket.to(nomeDocumento).emit('texto_editor_clentes', texto);
+    const documento = encontrarDocumento(nomeDocumento);
+
+    if (documento) {
+      documento.texto = texto;
+      
+      socket.to(nomeDocumento).emit('texto_editor_clentes', texto);
+    }
+    
   });
 });
 

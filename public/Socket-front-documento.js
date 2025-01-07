@@ -3,7 +3,8 @@ import { atualizarTextoEditor } from './documento.js';
 const socket = io();
 
 function selecionarDcocumento(nome) {
-  socket.emit('selecionar_documento', nome);
+  socket.emit('selecionar_documento', nome, (texto) => {
+    atualizarTextoEditor(texto);  });
 }
 
 function emitirTextoTextoEditor(dados) {
