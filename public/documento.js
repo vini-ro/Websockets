@@ -5,3 +5,7 @@ const textoEditor = document.getElementById('editor-texto');
 textoEditor.addEventListener("keyup", () => {
   socket.emit('texto_editor', textoEditor.value);
 });
+
+socket.on('texto_editor_clentes', (texto) => {
+  textoEditor.value = texto;
+})
