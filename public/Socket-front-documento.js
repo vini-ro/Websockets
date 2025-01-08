@@ -15,4 +15,8 @@ socket.on('texto_editor_clentes', (texto) => {
   atualizarTextoEditor(texto);
 })
 
-export { emitirTextoTextoEditor, selecionarDcocumento };
+function emitirExcluirDocumento(nome) {
+  socket.emit('excluir_documento', nome);
+}
+
+export { emitirTextoTextoEditor, selecionarDcocumento, emitirExcluirDocumento };
